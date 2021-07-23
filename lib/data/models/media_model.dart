@@ -1,34 +1,26 @@
+import 'package:netflix_worldwide_search/data/models/country.dart';
 import 'package:netflix_worldwide_search/domain/entities/media_entity.dart';
 
 class MediaModel extends MediaEntity {
-  final int id;
-  final String title;
-  final String img;
-  final String vtype;
   final int? nfid;
   final String? synopsis;
-  final int avgRating;
-  final int year;
-  final int runtime;
   final String? imdbid;
-  final String poster;
   final double? imdbrating;
   final int? top250;
   final int? top250tv;
-  final String clist;
-  final String titleDate;
+  final String? poster;
 
   MediaModel({
-    required this.id,
-    required this.title,
-    required this.img,
-    required this.vtype,
-    required this.avgRating,
-    required this.year,
-    required this.runtime,
-    required this.poster,
-    required this.clist,
-    required this.titleDate,
+    required int id,
+    required String title,
+    required String img,
+    required String vtype,
+    required double avgRating,
+    required int year,
+    required int runtime,
+    required List<Country> availableCountries,
+    required String titleDate,
+    this.poster,
     this.nfid,
     this.synopsis,
     this.imdbid,
@@ -43,8 +35,7 @@ class MediaModel extends MediaEntity {
           avgRating: avgRating,
           year: year,
           runtime: runtime,
-          poster: poster,
-          clist: clist,
+          availableCountries: availableCountries,
           titleDate: titleDate,
         );
 
@@ -64,8 +55,30 @@ class MediaModel extends MediaEntity {
       imdbrating: json['imdbrating'],
       top250: json['top250'],
       top250tv: json['top250tv'],
-      clist: json['clist'],
+      availableCountries: _convertToList(json['clist']),
       titleDate: json['titledate'],
     );
   }
+}
+
+List<Country> _convertToList(String? clist) {
+  if ((clist?.isEmpty ?? true)) {
+    return [];
+  }
+
+  final countryStringList = clist!.split(',');
+
+  final countries = <Country>[];
+
+  for (var countryStr in countryStringList) {
+    final countryParts = countryStr.split(':');
+    countries.add(
+      Country(
+        countryCode: countryParts.first.replaceAll('"', ''),
+        name: countryParts.last.replaceAll('"', ''),
+      ),
+    );
+  }
+
+  return countries;
 }

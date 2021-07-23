@@ -1,15 +1,15 @@
 import 'package:equatable/equatable.dart';
+import 'package:netflix_worldwide_search/data/models/country.dart';
 
 class MediaEntity extends Equatable {
   final int id;
   final String title;
   final String img;
   final String vtype;
-  final int avgRating;
+  final double avgRating;
   final int year;
   final int runtime;
-  final String poster;
-  final String clist;
+  final List<Country> availableCountries;
   final String titleDate;
 
   const MediaEntity({
@@ -20,8 +20,7 @@ class MediaEntity extends Equatable {
     required this.avgRating,
     required this.year,
     required this.runtime,
-    required this.poster,
-    required this.clist,
+    required this.availableCountries,
     required this.titleDate,
   });
 

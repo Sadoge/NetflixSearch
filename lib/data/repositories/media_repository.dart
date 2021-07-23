@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:netflix_worldwide_search/data/data_souces/media_remote_data_source.dart';
-import 'package:netflix_worldwide_search/domain/entities/media_entity.dart';
+import 'package:netflix_worldwide_search/data/models/media_model.dart';
 import 'package:netflix_worldwide_search/domain/entities/app_error.dart';
 import 'package:netflix_worldwide_search/domain/repositories/media_repository.dart';
 
@@ -13,7 +13,7 @@ class MediaRepositoryImpl extends MediaRepository {
   const MediaRepositoryImpl(this.remoteDataSource);
 
   @override
-  Future<Either<AppError, List<MediaEntity>>> searchMedia(String query) async {
+  Future<Either<AppError, List<MediaModel>>> searchMedia(String query) async {
     try {
       final mediaList = await remoteDataSource.searchMedia(query);
       return Right(mediaList);
